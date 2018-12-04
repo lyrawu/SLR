@@ -15,7 +15,7 @@ zipvalues=unique(zipcodes(:));
 
 % zillow: the mean property value over the recent n months (15627*19498)
 zillow=geotiffread('zill18_08.tif');
-zillow(zillow == 0) = NaN
+zillow(zillow == 0) = NaN;
 zillow = mean(zillow,3,'omitnan');
 
 
@@ -56,8 +56,8 @@ end
 
 
 % percent flooded of each pixel
-nrow = size(flood,1)
-ncol = size(flood,2)
+nrow = size(flood,1);
+ncol = size(flood,2);
 percentfloodedmap=zeros(nrow,ncol);
 homedamagemap=zeros(nrow,ncol);
 totalhomesmap=zeros(nrow,ncol);
@@ -65,7 +65,7 @@ pixelsfloodedmap=zeros(nrow,ncol);
 
 for jkl=2:length(zipvalues)   
     
-    cur_zip = zipvalues(jkl)
+    cur_zip = zipvalues(jkl);
     
     percentfloodedmap(zipcodes(:)==cur_zip) = percentflooded(jkl);
     homedamagemap(zipcodes(:)==cur_zip) = homedamage(jkl);
@@ -74,14 +74,17 @@ for jkl=2:length(zipvalues)
 end
 
 
+
+
+
 ```
 
 ## Flooded_Homes
 
 ``` matlab
 % load in the data if they are not in the workspace yet
-% flood=geotiffread('flooded_20m_db17_good.tif');
-% homes=geotiffread('homes_microsoft_clipped_final.tif');
+flood=geotiffread('flooded_20m_db17_good.tif');
+homes=geotiffread('homes_microsoft_clipped_final.tif');
 
 nrow = size(homes,1);
 ncol = size(homes,2);
@@ -96,6 +99,7 @@ for i = 1:nrow
     end
 end
 
+imwrite(flooded_houses, "flooded_houses.tif");
 % queue: indices of non-zero elements in flooded_houses
 queue = find(flooded_houses);
 % explored: an array storing pixels that have already been explored
@@ -189,6 +193,6 @@ while ~isempty(queue)
 
 end
 
-new_flooded_homes = length(find(flooded_houses));
+imwrite(flooded_houses, "flooded_houses_expanded.tif");
 
 ```
